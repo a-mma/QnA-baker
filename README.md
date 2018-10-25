@@ -55,7 +55,7 @@ Python modules:
 * User/situation aware answer rephrasing within context given a set of slots.
 
 ### Test:
-Here is a quick test did with the bot (used link2 in the above datasets - raw data).
+Here is a quick test did with the bot (used link2 in the above datasets - raw data). => is bot.
 
 > hey babe
 
