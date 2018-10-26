@@ -53,8 +53,8 @@ class DB:
 				if dialog != '':
 					vector_t = self.string2contextvec(dialog, dim)
 					context_t.append(vector_t)
-					# limit context
-					context_t = context_t[-self.context_limit:]
+					# limit context - method 1 (for unseperated data like opensubtitles. ref:readme)
+					# context_t = context_t[-self.context_limit:]
 					# create dialog context vector
 					vector = np.divide(np.sum(np.array(context_t), axis=0), self.context_limit)
 					# write data to DB
@@ -66,8 +66,8 @@ class DB:
 					}])
 					turn = turn + 1
 				else:
-					# limit context
-					# context_t = []
+					# limit context - method 2 (for context seperated data like twitter data. ref:readme)
+					context_t = []
 					diag = diag + 1
 				# print(turn, diag)
 		print('INITIALIZING: finished loading dialogs')
