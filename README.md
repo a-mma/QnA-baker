@@ -26,12 +26,12 @@ Python modules:
 ### How to use?
 * First of all you need to generate word embeddings from Starspace
     * Download a context oriented dialog dataset. You can try these, for example: [link1](https://github.com/Phylliida/Dialogue-Datasets/blob/master/TwitterLowerAsciiCorpus.txt) [link2](http://opus.nlpl.eu/download.php?f=OpenSubtitles/en-es.txt.zip) [link3](http://opus.nlpl.eu/)
-    * From the above dataset, generate Starspace friendly input file for training. You can refer [this](https://github.com/facebookresearch/StarSpace#docspace-document-recommendation) section on Starspace documentation. Each line in the document shold represent a single dialog context. Where each dialog turn (dialog sentance) is seperated with a <tab> character. For example, `<context 1 dialog sentance 1><tab><context 1 dialog sentance 2><tab><context 1 dialog sentance 3><tab>`. Note that, each dialog sentance is a string having words seperated by <whitespace> character. Like, `..tab><context 1 dialog sentance 2 word 1><whitespace><context 1 dialog sentance 2 word 2><whitespace><context 1 dialog sentance 2 word 3><tab..`.
+    * From the above dataset, generate Starspace friendly input file for training. You can refer [this](https://github.com/facebookresearch/StarSpace#docspace-document-recommendation) section on Starspace documentation. Each line in the document shold represent a single dialog context. Where each dialog turn (dialog sentance) is seperated with a `<tab>` character. For example, `<context 1 dialog sentance 1><tab><context 1 dialog sentance 2><tab><context 1 dialog sentance 3><tab>...`. Note that, each dialog sentance is a string having words seperated with a `<whitespace>` character. Like, `..tab><context 1 dialog sentance 2 word 1><whitespace><context 1 dialog sentance 2 word 2><whitespace><context 1 dialog sentance 2 word 3><tab..`.
     * Once the training file is generated, train with  `starspace train -trainFile <input file> -model <model name> -trainMode 1 -fileFormat labelDoc` and generate word embeddings. Currently, QnA baker don't support n-gram embedding.
     * Once training is done, we need a copy of the generated `<model name>.tsv` file.
 * Step 2 is to index embeddings and dialogs
-    * Clone this repository to your local machine. Create a data directory and keep a copy of `<model name>.tsv` there.
-    * Create another file `<conversation data>.txt`, which will be the actual dialog dataset that we need to index. In this document, each line represent a single dialog turn in our dataset and are arranged in the order of actual conversation within a context. Each group of dialogs (each context) is seperated by a blank line. For example, `...<\n><context 1 dialog sentance 1><\n><context 1 dialog sentance 2><\n><context 1 dialog sentance 3><\n><\n><context 2 dialog sentance 1><\n><context 2 dialog sentance 2><\n><context 2 dialog sentance 3><context 2 dialog sentance 4><\n><context 2 dialog sentance 5><\n><\n>...`
+    * Clone this repository to your local machine. Create a `data` directory and keep a copy of `<model name>.tsv` there.
+    * Create another file `<conversation data>.txt`, which is a modified copy of actual dialog dataset that we need to index. In this document, each line represent a single dialog turn in our dataset and are arranged in the order of actual conversation within a context. Each group of dialogs (each context) is seperated by a blank line. For example, `...<\n><context 1 dialog sentance 1><\n><context 1 dialog sentance 2><\n><context 1 dialog sentance 3><\n><\n><context 2 dialog sentance 1><\n><context 2 dialog sentance 2><\n><context 2 dialog sentance 3><context 2 dialog sentance 4><\n><context 2 dialog sentance 5><\n><\n>...`
     * Modify, `server.py` by specifying the file locations for `vContext` (path to <model name>.tsv) and `dialogs` (path to <conversation data>.txt). And any other value, if you like.
     * Now, run the project with `python3 server.py`. And Use a REST client to access `http://0.0.0.0:5000/`.
 * API interfaces
@@ -47,10 +47,13 @@ Python modules:
 * User management in API
 * Enable ngram embedding to support more languages
 * Automate & integrate Starspace training (Once a python wrapper is available)
+* Dockerize
+* Return confidence score with /talk API (to make this compatible with other bot frameworks)
 * Integrate basic data cleaning
 * Make it fast - can [FAISS](https://github.com/facebookresearch/faiss) help us?
 
 ### Experimental ideas that we can try out on this:
+* Weighted sort candidate answers based on user's current sentiment
 * Multiple languages within a single context (flexibility to talk in multiple languages) - can [MUSE](https://github.com/facebookresearch/MUSE) help us?
 * User/situation aware answer rephrasing within context given a set of slots.
 
