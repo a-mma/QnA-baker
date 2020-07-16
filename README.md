@@ -1,4 +1,6 @@
-# QnA baker
+# [DEPRICATED]: QnA baker is now [AquilaDB](https://github.com/a-mma/AquilaDB)
+
+
 Create your own context aware QnA bot with this tool as a microservice. It provides a simple API to load your data and make predictions. 
 
 ### How it works?
